@@ -2,7 +2,7 @@ import pymongo
 import random
 import json
 import multiprocessing
-import datetime
+from datetime import datetime
 url = 'mongodb://book:welcome1@joyeainfo.goss.top:38213/tbooks'
 URL = 'mongodb://localhost:27017/book'
 client = pymongo.MongoClient(url)
@@ -14,6 +14,7 @@ data_t = db.t_books
 book_list = {}
 author_id = {}
 
+# DataSource01 = ['1.txt', '2.txt', '3.txt', '4.txt', '5.txt', '6.txt', '7.txt']
 DataSource01 = ['/opt/miaozhai_data/DataSource01-1.json', '/opt/miaozhai_data/DataSource01-15.json',
                 '/opt/miaozhai_data/DataSource01-4.json', '/opt/miaozhai_data/DataSource01-10.json',
                 '/opt/miaozhai_data/DataSource01-16.json', '/opt/miaozhai_data/DataSource01-5.json',
@@ -27,7 +28,7 @@ DataSource01 = ['/opt/miaozhai_data/DataSource01-1.json', '/opt/miaozhai_data/Da
 
 def book_clear(source01):
     source_1 = open(source01, 'r', encoding='utf-8')
-    book = source01.readline()
+    book = source_1.readline()
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01)
     # with open('./translog01.log', 'w+') as log:
     #     info = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01
@@ -138,9 +139,9 @@ def book_clear(source01):
     #     log.write(info)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': end' + source01)
 
-
-pool_book = multiprocessing.Pool(processes=5)
-for source01 in DataSource01:
-    pool_book.apply_async(book_clear, (source01,))
-pool_book.close()
-pool_book.join()
+if __name__ == '__main__':
+    pool_book = multiprocessing.Pool(processes=3)
+    for source01 in DataSource01:
+        pool_book.apply_async(book_clear, (source01, ))
+    pool_book.close()
+    pool_book.join()
