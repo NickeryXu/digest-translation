@@ -28,9 +28,10 @@ DataSource01 = ['/opt/miaozhai_data/DataSource01-1.json', '/opt/miaozhai_data/Da
 def book_clear(source01):
     source_1 = open(source01, 'r', encoding='utf-8')
     book = source01.readline()
-    with open('./translog01.log', 'w+') as log:
-        info = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01
-        log.write(info)
+    print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01)
+    # with open('./translog01.log', 'w+') as log:
+    #     info = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01
+    #     log.write(info)
     # books = data_1.find()
     # for book in books:
     count_1 = 0
@@ -123,17 +124,19 @@ def book_clear(source01):
             # book['status'] = e
             # data_1.update({'_id': book['_id']}, {'$set': book})
             # print('book error', e, book)
-            with open('./Errorlog01.log', 'w+') as log:
-                info = 'Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + book
-                log.write(info)
+            print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + book)
+            # with open('./Errorlog01.log', 'w+') as log:
+            #     info = 'Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + book
+            #     log.write(info)
         finally:
             book = source_1.readline()
-            if count_1 % 1000 == 0:
+            if count_1 % 500 == 0:
                 with open('./translog01.log', 'w+') as log:
                     log.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + source01 + 'loading: %d / 1000000' % count_1)
-    with open('./translog01.log', 'w+') as log:
-        info = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': end' + source01
-        log.write(info)
+    # with open('./translog01.log', 'w+') as log:
+    #     info = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': end' + source01
+    #     log.write(info)
+    print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': end' + source01)
 
 
 pool_book = multiprocessing.Pool(processes=5)

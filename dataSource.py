@@ -299,14 +299,16 @@ while digest:
         # digest['status'] = e
         # data_2.update({'_id': digest['_id']}, {'$set': digest})
         # print('digest_1 error', e, digest)
-        with open('./Errorlog.log', 'w+') as log:
-            info = 'Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + digest
-            log.write(info)
+        print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + digest)
+        # with open('./Errorlog.log', 'w+') as log:
+        #     info = 'Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + digest
+        #     log.write(info)
     finally:
         digest = source_2.readline()
-        if count_2 % 1000 == 0:
-            with open('./translog02.log', 'w+') as log:
-                log.write('DataSource02 loading: %d / 47906' % count_2)
+        if count_2 % 500 == 0:
+            print('DataSource02 loading: %d / 47906' % count_2)
+        #     with open('./translog02.log', 'w+') as log:
+        #         log.write('DataSource02 loading: %d / 47906' % count_2)
 
 source_3 = open('/opt/miaozhai/DataSource03.json', 'r', encoding='utf-8')
 digest = source_3.readline()
@@ -433,14 +435,16 @@ while digest:
             # digest['status'] = 'success'
             # data_2.update({'_id': digest['_id']}, {'$set': digest})
     except Exception as e:
+        print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + digest)
         # digest['status'] = e
         # data_2.update({'_id': digest['_id']}, {'$set': digest})
         # print('digest_2 error', e, digest)
-        with open('./Errorlog03.log', 'w+') as log:
-            info = 'Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + digest
-            log.write(info)
+        # with open('./Errorlog03.log', 'w+') as log:
+        #     info = 'Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + digest
+        #     log.write(info)
     finally:
         digest = source_3.readline()
-        if count_3 % 1000 == 0:
-            with open('./translog03.log', 'w+') as log:
-                log.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + 'DataSource03 loading:%d / 74911' % count_3)
+        if count_3 % 500 == 0:
+            print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + 'DataSource03 loading:%d / 74911' % count_3)
+            # with open('./translog03.log', 'w+') as log:
+            #     log.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + 'DataSource03 loading:%d / 74911' % count_3)
