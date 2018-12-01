@@ -30,9 +30,12 @@ DataSource01 = ['/opt/miaozhai_data/DataSource01-1.json', '/opt/miaozhai_data/Da
 
 def book_clear(source01):
     print('book_clear begin!')
-    source_1 = open(source01, 'r', encoding='utf-8')
-    book = source_1.readline()
-    print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01)
+    try:
+        source_1 = open(source01, 'r', encoding='utf-8')
+        book = source_1.readline()
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01)
+    except Exception as e:
+        print('Error as', e)
     # with open('./translog01.log', 'w+') as log:
     #     info = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01
     #     log.write(info)
