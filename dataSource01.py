@@ -10,7 +10,9 @@ CLIENT = pymongo.MongoClient(URL)
 db = client.tbooks
 local = CLIENT.book
 data_t = db.t_books
-# data_e = db.t_excerpts
+data_e = db.t_excerpts
+# data_t = local.t_books
+# data_e = local.t_excerpts
 book_list = {}
 author_id = {}
 
@@ -27,6 +29,7 @@ DataSource01 = ['/opt/miaozhai_data/DataSource01-1.json', '/opt/miaozhai_data/Da
 ]
 
 def book_clear(source01):
+    print('book_clear begin!')
     source_1 = open(source01, 'r', encoding='utf-8')
     book = source_1.readline()
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01)
@@ -37,6 +40,7 @@ def book_clear(source01):
     # for book in books:
     count_1 = 0
     while book:
+        # continue
         count_1 += 1
         try:
             book = json.loads(book)
@@ -132,16 +136,18 @@ def book_clear(source01):
         finally:
             book = source_1.readline()
             if count_1 % 500 == 0:
-                with open('./translog01.log', 'w+') as log:
-                    log.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + source01 + 'loading: %d / 1000000' % count_1)
+                print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + source01 + 'loading: %d / 1000000' % count_1)
+                # with open('./translog01.log', 'w+') as log:
+                #     log.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + source01 + 'loading: %d / 1000000' % count_1)
     # with open('./translog01.log', 'w+') as log:
     #     info = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': end' + source01
     #     log.write(info)
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': end' + source01)
 
 if __name__ == '__main__':
-    pool_book = multiprocessing.Pool(processes=3)
+    pool_book = multiprocessing.Pool(processes=4)
     for source01 in DataSource01:
+        print('ready to raise processing!')
         pool_book.apply_async(book_clear, (source01, ))
     pool_book.close()
     pool_book.join()
