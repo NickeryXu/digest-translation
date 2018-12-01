@@ -154,7 +154,7 @@ author_id = {}
 # pool_book.close()
 # pool_book.join()
 
-source_2 = open('/opt/miaozhai/DataSource02.json', 'r', encoding='utf-8')
+source_2 = open('/opt/miaozhai_data/DataSource02.json', 'r', encoding='utf-8')
 digest = source_2.readline()
 # digests_1 = data_2.find()
 # for digest in digest_1:
@@ -310,7 +310,7 @@ while digest:
         #     with open('./translog02.log', 'w+') as log:
         #         log.write('DataSource02 loading: %d / 47906' % count_2)
 
-source_3 = open('/opt/miaozhai/DataSource03.json', 'r', encoding='utf-8')
+source_3 = open('/opt/miaozhai_data/DataSource03.json', 'r', encoding='utf-8')
 digest = source_3.readline()
 count_3 = 0
 # digest_2 = data_3.find()
