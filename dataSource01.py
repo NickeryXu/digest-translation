@@ -3,14 +3,9 @@ import random
 import json
 import multiprocessing
 from datetime import datetime
+
 url = 'mongodb://book:welcome1@joyeainfo.goss.top:38213/tbooks'
-URL = 'mongodb://localhost:27017/book'
-client = pymongo.MongoClient(url)
-CLIENT = pymongo.MongoClient(URL)
-db = client.tbooks
-local = CLIENT.book
-data_t = db.t_books
-data_e = db.t_excerpts
+# URL = 'mongodb://localhost:27017/book'
 # data_t = local.t_books
 # data_e = local.t_excerpts
 book_list = {}
@@ -29,8 +24,14 @@ DataSource01 = ['/opt/miaozhai_data/DataSource01/DataSource01-1.json', '/opt/mia
 ]
 
 def book_clear(source01):
-    print('book_clear begin!')
+    # print('book_clear begin!')
     try:
+        client = pymongo.MongoClient(url)
+        # CLIENT = pymongo.MongoClient(URL)
+        db = client.tbooks
+        # local = CLIENT.book
+        data_t = db.t_books
+        # data_e = db.t_excerpts
         source_1 = open(source01, 'r', encoding='utf-8')
         book = source_1.readline()
         print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01)
@@ -68,20 +69,20 @@ def book_clear(source01):
                 category = []
                 tags = book['tags']
                 score = ''
-                writer_list = []
-                for writer in book['writers']:
-                    if writer not in author_id.keys():
-                        while True:
-                            n = random.randint(10000000, 99999999)
-                            if n not in author_id.values():
-                                author_id[writer] = n
-                                writer_info = {'id': n, 'author_name': writer}
-                                writer_list.append(writer_info)
-                                break
-                    else:
-                        writer_info = {'id': author_id[writer], 'author_name': writer}
-                        writer_list.append(writer_info)
-                author_list = writer_list
+                # writer_list = []
+                # for writer in book['writers']:
+                #     if writer not in author_id.keys():
+                #         while True:
+                #             n = random.randint(10000000, 99999999)
+                #             if n not in author_id.values():
+                #                 author_id[writer] = n
+                #                 writer_info = {'id': n, 'author_name': writer}
+                #                 writer_list.append(writer_info)
+                #                 break
+                #     else:
+                #         writer_info = {'id': author_id[writer], 'author_name': writer}
+                #         writer_list.append(writer_info)
+                author_list = book['writers']
                 publisher = book['publisher']
                 publish_date = book['release_date']
 
@@ -106,10 +107,9 @@ def book_clear(source01):
                     if catalog != '' and catalog != ' ':
                         catalog = catalog.replace(' ', '')
                         catalog_info.append(catalog)
-                        catalog_info.append('')
                 # excerpts = []
                 series = book['series']
-                all_version = ''
+                all_version = []
                 # 数据插入数据库
                 data_t.insert({
                     'book_name': book_name,
@@ -126,8 +126,7 @@ def book_clear(source01):
                     'series': series,
                     'all_version': all_version
                 })
-                # book['status'] = 'success'
-                # data_1.update({'_id': book['_id']}, {'$set': book})
+                # data_1.update({'_id': book['_id']}, {'$set': {'translation': '1'}})
         except Exception as e:
             # book['status'] = e
             # data_1.update({'_id': book['_id']}, {'$set': book})
@@ -148,7 +147,7 @@ def book_clear(source01):
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': end' + source01)
 
 if __name__ == '__main__':
-    pool_book = multiprocessing.Pool(processes=4)
+    pool_book = multiprocessing.Pool(processes=5)
     for source01 in DataSource01:
         print('ready to raise processing!')
         pool_book.apply_async(book_clear, (source01, ))

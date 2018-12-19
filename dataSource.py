@@ -1,8 +1,8 @@
 import pymongo
 import random
 import json
-import multiprocessing
-import datetime
+# import multiprocessing
+from datetime import datetime
 url = 'mongodb://book:welcome1@joyeainfo.goss.top:38213/tbooks'
 URL = 'mongodb://localhost:27017/book'
 client = pymongo.MongoClient(url)
@@ -210,19 +210,19 @@ while digest:
             if data['author_list'] == []:
                 writer_list = []
                 authors = digest['book_author'].split(' ')
-                for writer in authors:
-                    if writer not in author_id.keys():
-                        while True:
-                            n = random.randint(100000, 999999)
-                            if n not in author_id.values():
-                                author_id[writer] = n
-                                writer_info = {'id': n, 'author_name': writer}
-                                writer_list.append(writer_info)
-                                break
-                    else:
-                        writer_info = {'id': author_id[writer], 'author_name': writer}
-                        writer_list.append(writer_info)
-                data['author_list'] = writer_list
+                # for writer in authors:
+                #     if writer not in author_id.keys():
+                #         while True:
+                #             n = random.randint(100000, 999999)
+                #             if n not in author_id.values():
+                #                 author_id[writer] = n
+                #                 writer_info = {'id': n, 'author_name': writer}
+                #                 writer_list.append(writer_info)
+                #                 break
+                #     else:
+                #         writer_info = {'id': author_id[writer], 'author_name': writer}
+                #         writer_list.append(writer_info)
+                data['author_list'] = authors
             # 02源中publish_info中数据都是全的，不会出现字段丢失的问题
             if data['publish_info']['publish_date'] == '':
                 data['publish_info']['publish_date'] = digest['publish_info']['publish_time']
@@ -236,14 +236,9 @@ while digest:
             # 02源catalog不为空则优先选用02源
             if digest['catalog'] != []:
                 catalog_list = []
-                m = 1
                 for cata in digest['catalog']:
-                    digest_catalog = {}
-                    digest_catalog['catalog_id'] = m
-                    digest_catalog['catalog_title'] = cata
-                    m += 1
+                    digest_catalog = cata
                     catalog_list.append(digest_catalog)
-                    catalog_list.append('')
                 data['catalog_info'] = catalog_list
             if key_data == 1:
                 data_t.insert(data)
@@ -371,24 +366,25 @@ while digest:
             if digest['authorList'] != []:
                 writer_list = []
                 for writer in digest['authorList']:
-                    # 作者id和名字都不在list中，直接导入
-                    if writer['id'] not in author_id.values() and writer['name'] not in author_id.keys():
-                        author_id[writer['name']] = writer['id']
-                        writer_info = {'id': writer['id'], 'author_name': writer['name']}
-                    # id被占用，就生成一个新的id
-                    elif writer['id'] in author_id.values() and writer['name'] not in author_id.keys():
-                        while True:
-                            n = random.randint(100000, 999999)
-                            if n not in author_id.values():
-                                author_id[writer['name']] = n
-                                writer_info = {'id': n, 'author_name': writer['name']}
-                                break
-                    # list中已有作者，取列表中的id
-                    elif writer['name'] in author_id.keys():
-                        writer_info = {'id': author_id[writer['name']], 'author_name': writer['name']}
-                    else:
-                        writer_info = {'id': author_id[writer['name']], 'author_name': writer['name']}
-                    writer_list.append(writer_info)
+                    # # 作者id和名字都不在list中，直接导入
+                    # if writer['id'] not in author_id.values() and writer['name'] not in author_id.keys():
+                    #     author_id[writer['name']] = writer['id']
+                    #     writer_info = {'id': writer['id'], 'author_name': writer['name']}
+                    # # id被占用，就生成一个新的id
+                    # elif writer['id'] in author_id.values() and writer['name'] not in author_id.keys():
+                    #     while True:
+                    #         n = random.randint(100000, 999999)
+                    #         if n not in author_id.values():
+                    #             author_id[writer['name']] = n
+                    #             writer_info = {'id': n, 'author_name': writer['name']}
+                    #             break
+                    # # list中已有作者，取列表中的id
+                    # elif writer['name'] in author_id.keys():
+                    #     writer_info = {'id': author_id[writer['name']], 'author_name': writer['name']}
+                    # else:
+                    #     writer_info = {'id': author_id[writer['name']], 'author_name': writer['name']}
+                    # writer_list.append(writer_info)
+                    writer_list.append(writer['name'])
                 data['author_list'] = writer_list
             # 03源中有1w多条没有publisher，为空字符串，没有暂无字段
             if data['publish_info']['publisher'] == '':
@@ -406,7 +402,6 @@ while digest:
                 #     catalog_list.append(digest_catalog)
                 for cata in digest['catalog']:
                     catalog_list.append(cata['chapterName'])
-                    catalog_list.append('')
                 data['catalog_info'] = catalog_list
             if key_data == 1 and digest['excerpt'] != []:
                 data_t.insert(data)
