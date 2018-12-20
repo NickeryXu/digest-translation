@@ -3,12 +3,13 @@ import random
 import json
 # import multiprocessing
 from datetime import datetime
-url = 'mongodb://book:welcome1@joyeainfo.goss.top:38213/tbooks'
-URL = 'mongodb://localhost:27017/book'
+# url = 'mongodb://book:welcome1@joyeainfo.goss.top:38213/tbooks'
+# URL = 'mongodb://localhost:27017/book'
+url = 'mongodb://root:M7tosplw8!@dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-11082973'
 client = pymongo.MongoClient(url)
-CLIENT = pymongo.MongoClient(URL)
+# CLIENT = pymongo.MongoClient(URL)
 db = client.tbooks
-local = CLIENT.book
+# local = CLIENT.book
 # db.authenticate('book', 'welcome1')
 # data_1 = db.DataSource01
 # data_2 = db.DataSource02
@@ -154,6 +155,7 @@ author_id = {}
 # pool_book.close()
 # pool_book.join()
 
+# 02源category补充
 source_2 = open('/opt/miaozhai_data/DataSource02.json', 'r', encoding='utf-8')
 digest = source_2.readline()
 # digests_1 = data_2.find()
@@ -233,6 +235,10 @@ while digest:
             # 02源的price类型为double，为0时表示为空，01源中为字符串，暂无为空
             if data['publish_info']['price'] == '':
                 data['publish_info']['price'] = digest['publish_info']['price']
+            if data['category'] == []:
+                categorys = digest['publish_info']['category'].split('-')
+                for category in categorys:
+                    data['category'].append({'id': 100, 'name': category})
             # 02源catalog不为空则优先选用02源
             if digest['catalog'] != []:
                 catalog_list = []
@@ -290,6 +296,7 @@ while digest:
                 data_e.insert_many(discuss_insert)
             # digest['status'] = 'success'
             # data_2.update({'_id': digest['_id']}, {'$set': digest})
+            data_t.update({'_id': data['_id']}, {'$set': data})
     except Exception as e:
         # digest['status'] = e
         # data_2.update({'_id': digest['_id']}, {'$set': digest})
@@ -348,7 +355,15 @@ while digest:
                 data['cover_thumbnail'] = digest['picUrl']
             if data['summary'] == '':
                 data['summary'] = digest['desc']
-            if data['category'] == [] or digest['categorys'] != []:
+            if digest['categorys'] != []:
+                for d_cate in digest['categorys']:
+                    key_cate = 0
+                    for da_cate in data['category']:
+                        if d_cate['name'] == da_cate['name']:
+                            key_cate = 1
+                            break
+                    if key_cate == 0:
+                        data['category'].append(d_cate)
                 # 判断data中无该字段数据或03源有该字段数据，则以03源为优
                 data['category'] = digest['categorys']
             if digest['tagInfo'] != []:
@@ -429,6 +444,7 @@ while digest:
                 data_e.insert_many(excerpt_insert)
             # digest['status'] = 'success'
             # data_2.update({'_id': digest['_id']}, {'$set': digest})
+            data_t.update({'_id': data['_id']}, {'$set': data})
     except Exception as e:
         print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + digest)
         # digest['status'] = e

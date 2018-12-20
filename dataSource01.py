@@ -4,7 +4,7 @@ import json
 import multiprocessing
 from datetime import datetime
 
-url = 'mongodb://book:welcome1@joyeainfo.goss.top:38213/tbooks'
+url = 'mongodb://root:M7tosplw8!@dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-11082973'
 # URL = 'mongodb://localhost:27017/book'
 # data_t = local.t_books
 # data_e = local.t_excerpts
@@ -64,7 +64,7 @@ def book_clear(source01):
                 subtitle = book['subtitle']
                 original_name = book['original_name']
                 cover_thumbnail = book['cover']
-                summary = book['summary']	#确实一个e一个a
+                summary = book['summary']	# 确实一个e一个a
                 # category为分类，01源暂时不考虑
                 category = []
                 tags = book['tags']
