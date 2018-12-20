@@ -4,37 +4,41 @@ import json
 import multiprocessing
 from datetime import datetime
 
-url = 'mongodb://root:M7tosplw8!@dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-11082973'
+url = 'mongodb://dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717'
 # URL = 'mongodb://localhost:27017/book'
 # data_t = local.t_books
 # data_e = local.t_excerpts
+user = 'book'
+password = 'welcome1'
+replicaset = 'mgset-11082973'
 book_list = {}
 author_id = {}
 
-# DataSource01 = ['1.txt', '2.txt', '3.txt', '4.txt', '5.txt', '6.txt', '7.txt']
-DataSource01 = ['/opt/miaozhai_data/DataSource01/DataSource01-1.json', '/opt/miaozhai_data/DataSource01/DataSource01-15.json',
-                '/opt/miaozhai_data/DataSource01/DataSource01-4.json', '/opt/miaozhai_data/DataSource01/DataSource01-10.json',
-                '/opt/miaozhai_data/DataSource01/DataSource01-16.json', '/opt/miaozhai_data/DataSource01/DataSource01-5.json',
-                '/opt/miaozhai_data/DataSource01/DataSource01-11.json', '/opt/miaozhai_data/DataSource01/DataSource01-17.json',
-                '/opt/miaozhai_data/DataSource01/DataSource01-6.json', '/opt/miaozhai_data/DataSource01/DataSource01-12.json',
-                '/opt/miaozhai_data/DataSource01/DataSource01-18.json', '/opt/miaozhai_data/DataSource01/DataSource01-7.json',
-                '/opt/miaozhai_data/DataSource01/DataSource01-13.json', '/opt/miaozhai_data/DataSource01/DataSource01-2.json',
-                '/opt/miaozhai_data/DataSource01/DataSource01-8.json', '/opt/miaozhai_data/DataSource01/DataSource01-14.json',
-                '/opt/miaozhai_data/DataSource01/DataSource01-3.json', '/opt/miaozhai_data/DataSource01/DataSource01-9.json'
-]
+DataSource01 = ['./DataSource01.json']
+# DataSource01 = ['/opt/miaozhai_data/DataSource01/DataSource01-1.json', '/opt/miaozhai_data/DataSource01/DataSource01-15.json',
+#                 '/opt/miaozhai_data/DataSource01/DataSource01-4.json', '/opt/miaozhai_data/DataSource01/DataSource01-10.json',
+#                 '/opt/miaozhai_data/DataSource01/DataSource01-16.json', '/opt/miaozhai_data/DataSource01/DataSource01-5.json',
+#                 '/opt/miaozhai_data/DataSource01/DataSource01-11.json', '/opt/miaozhai_data/DataSource01/DataSource01-17.json',
+#                 '/opt/miaozhai_data/DataSource01/DataSource01-6.json', '/opt/miaozhai_data/DataSource01/DataSource01-12.json',
+#                 '/opt/miaozhai_data/DataSource01/DataSource01-18.json', '/opt/miaozhai_data/DataSource01/DataSource01-7.json',
+#                 '/opt/miaozhai_data/DataSource01/DataSource01-13.json', '/opt/miaozhai_data/DataSource01/DataSource01-2.json',
+#                 '/opt/miaozhai_data/DataSource01/DataSource01-8.json', '/opt/miaozhai_data/DataSource01/DataSource01-14.json',
+#                 '/opt/miaozhai_data/DataSource01/DataSource01-3.json', '/opt/miaozhai_data/DataSource01/DataSource01-9.json'
+# ]
 
 def book_clear(source01):
     # print('book_clear begin!')
     try:
-        client = pymongo.MongoClient(url)
+        client = pymongo.MongoReplicaSetClient(url, replicaSet='mgset-11082973')
         # CLIENT = pymongo.MongoClient(URL)
-        db = client.tbooks
+        db = client['tbooks']
+        db.authenticate(user, password)
         # local = CLIENT.book
         data_t = db.t_books
         # data_e = db.t_excerpts
         source_1 = open(source01, 'r', encoding='utf-8')
         book = source_1.readline()
-        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start' + source01)
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': start -- ' + source01)
     except Exception as e:
         print('Error as', e)
     # with open('./translog01.log', 'w+') as log:

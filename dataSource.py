@@ -5,10 +5,14 @@ import json
 from datetime import datetime
 # url = 'mongodb://book:welcome1@joyeainfo.goss.top:38213/tbooks'
 # URL = 'mongodb://localhost:27017/book'
-url = 'mongodb://root:M7tosplw8!@dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717/admin?replicaSet=mgset-11082973'
-client = pymongo.MongoClient(url)
+url = 'mongodb://dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717'
+replicaset = 'mgset-11082973'
+user = 'book'
+password = 'welcome1'
+client = pymongo.MongoReplicaSetClient(url, replicaSet=replicaset)
 # CLIENT = pymongo.MongoClient(URL)
-db = client.tbooks
+db = client['tbooks']
+db.authenticate(user, password)
 # local = CLIENT.book
 # db.authenticate('book', 'welcome1')
 # data_1 = db.DataSource01
