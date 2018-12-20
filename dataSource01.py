@@ -48,7 +48,6 @@ def book_clear(source01):
         count_1 += 1
         try:
             book = json.loads(book)
-            # 01源若出现异常则status为'exception'，无异常且处理完成则为‘success’
             if not book.get('status'):
                 # isbn为暂无和空字符串的情况都有，另外01源中name字段没有值为空或暂无的
                 if book['isbn'] == '' or book['isbn'] == '暂无':
