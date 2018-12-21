@@ -1,5 +1,5 @@
 import pymongo
-import random
+import re
 import json
 # import multiprocessing
 from datetime import datetime
@@ -167,8 +167,12 @@ digest = source_2.readline()
 count_2 = 0
 while digest:
     count_2 += 1
+    if count_2 == 10000:
+        break
     try:
         digest = json.loads(digest)
+        if '&#' in digest['book_name'] or bool(re.search('[a-z]', digest['book_name'])):
+            continue
         if not digest.get('status'):
             key_data = 0
             # 02源中ISBN只有为空没有为暂无的
@@ -323,8 +327,12 @@ count_3 = 0
 # for digest in digest_2:
 while digest:
     count_3 += 1
+    if count_3 == 10000:
+        break
     try:
         digest = json.loads(digest)
+        if '&#' in digest['bookName'] or bool(re.search('[a-z]', digest['bookName'])):
+            continue
         if not digest.get('status'):
             key_data = 0
             # 03源isbn只存在为空字符串，没有暂无

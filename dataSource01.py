@@ -1,15 +1,15 @@
 import pymongo
-import random
+import re
 import json
 import multiprocessing
 from datetime import datetime
 
-url = 'mongodb://dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717'
+# url = 'mongodb://dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717'
 # URL = 'mongodb://localhost:27017/book'
 # data_t = local.t_books
 # data_e = local.t_excerpts
-user = 'book'
-password = 'welcome1'
+# user = 'book'
+# password = 'welcome1'
 replicaset = 'mgset-11082973'
 book_list = {}
 author_id = {}
@@ -29,10 +29,10 @@ DataSource01 = ['./DataSource01.json']
 def book_clear(source01):
     # print('book_clear begin!')
     try:
-        client = pymongo.MongoReplicaSetClient(url, replicaSet='mgset-11082973')
+        client = pymongo.MongoReplicaSetClient('mongodb://dds-bp159c71a9b119841194-pub.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842982-pub.mongodb.rds.aliyuncs.com:3717', replicaSet='mgset-11082973')
         # CLIENT = pymongo.MongoClient(URL)
         db = client['tbooks']
-        db.authenticate(user, password)
+        db.authenticate('book', 'welcome1')
         # local = CLIENT.book
         data_t = db.t_books
         # data_e = db.t_excerpts
@@ -49,6 +49,8 @@ def book_clear(source01):
     count_1 = 0
     while book:
         # continue
+        if count_1 == 10000:
+            break
         count_1 += 1
         try:
             book = json.loads(book)
@@ -64,6 +66,8 @@ def book_clear(source01):
                     book_list[book['isbn']] = book['_id']
                     isbn = book['isbn']
                 book_name = book['name']
+                if '&#' in book_name or bool(re.search('[a-z]', book_name)):
+                    continue
                 subtitle = book['subtitle']
                 original_name = book['original_name']
                 cover_thumbnail = book['cover']
