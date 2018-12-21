@@ -5,7 +5,7 @@ import json
 from datetime import datetime
 # url = 'mongodb://book:welcome1@joyeainfo.goss.top:38213/tbooks'
 # URL = 'mongodb://localhost:27017/book'
-url = 'mongodb://dds-bp159c71a9b119841.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842.mongodb.rds.aliyuncs.com:3717'
+url = 'mongodb://dds-bp159c71a9b119841194-pub.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842982-pub.mongodb.rds.aliyuncs.com:3717'
 replicaset = 'mgset-11082973'
 user = 'book'
 password = 'welcome1'
