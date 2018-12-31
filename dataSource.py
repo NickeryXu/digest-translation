@@ -220,7 +220,9 @@ while digest:
             if data['author_list'] == []:
                 writer_list = []
                 authors = digest['book_author'].split(' ')
-                # for writer in authors:
+                for writer in authors:
+                    writers = {'id': 100000, 'author_name': writer}
+                    writer_list.append(writers) 
                 #     if writer not in author_id.keys():
                 #         while True:
                 #             n = random.randint(100000, 999999)
@@ -232,7 +234,7 @@ while digest:
                 #     else:
                 #         writer_info = {'id': author_id[writer], 'author_name': writer}
                 #         writer_list.append(writer_info)
-                data['author_list'] = authors
+                data['author_list'] = writer_list
             # 02源中publish_info中数据都是全的，不会出现字段丢失的问题
             if data['publish_info']['publish_date'] == '':
                 data['publish_info']['publish_date'] = digest['publish_info']['publish_time']
@@ -326,8 +328,7 @@ count_3 = 0
 # digest_2 = data_3.find()
 # for digest in digest_2:
 while digest:
-    count_3 += 1
-    if count_3 == 10000:
+    if count_3 == 0:
         break
     try:
         digest = json.loads(digest)
