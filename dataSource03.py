@@ -175,5 +175,5 @@ while digest:
         #     log.write(info)
     finally:
         digest = source_3.readline()
-        if count_3 % 500 == 0:
+        if count_3 % 5000 == 0:
             print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + 'DataSource03 loading:%d / 74911' % count_3)

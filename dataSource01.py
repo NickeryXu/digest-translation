@@ -66,7 +66,7 @@ def book_clear(source01):
                     book_list[book['isbn']] = book['_id']
                     isbn = book['isbn']
                 book_name = book['name']
-                if '&#' in book_name or bool(re.search('[a-z]', book_name)):
+                if '&#' in book_name or bool(re.search('[a-zA-Z]', book_name)):
                     continue
                 subtitle = book['subtitle']
                 original_name = book['original_name']
@@ -76,8 +76,10 @@ def book_clear(source01):
                 category = []
                 tags = book['tags']
                 score = ''
-                # writer_list = []
-                # for writer in book['writers']:
+                writer_list = []
+                for writer in book['writers']:
+                    writers = {'id': 100000, 'author_name': writer}
+                    writer_list.append(writers)
                 #     if writer not in author_id.keys():
                 #         while True:
                 #             n = random.randint(10000000, 99999999)
@@ -89,7 +91,7 @@ def book_clear(source01):
                 #     else:
                 #         writer_info = {'id': author_id[writer], 'author_name': writer}
                 #         writer_list.append(writer_info)
-                author_list = book['writers']
+                author_list = writer_list
                 publisher = book['publisher']
                 publish_date = book['release_date']
 
@@ -144,8 +146,8 @@ def book_clear(source01):
             #     log.write(info)
         finally:
             book = source_1.readline()
-            if count_1 % 500 == 0:
-                print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + source01 + 'loading: %d / 1000000' % count_1)
+            if count_1 % 10000 == 0:
+                print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' -- ' + source01 + ' -- loading: %d / 1000000' % count_1)
                 # with open('./translog01.log', 'w+') as log:
                 #     log.write(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ':' + source01 + 'loading: %d / 1000000' % count_1)
     # with open('./translog01.log', 'w+') as log:
@@ -154,9 +156,8 @@ def book_clear(source01):
     print(datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': end' + source01)
 
 if __name__ == '__main__':
-    pool_book = multiprocessing.Pool(processes=5)
+    pool_book = multiprocessing.Pool(processes=8)
     for source01 in DataSource01:
-        print('ready to raise processing!')
         pool_book.apply_async(book_clear, (source01, ))
     pool_book.close()
     pool_book.join()

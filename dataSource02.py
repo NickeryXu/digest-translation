@@ -180,7 +180,7 @@ while digest:
         #     log.write(info)
     finally:
         digest = source_2.readline()
-        if count_2 % 500 == 0:
+        if count_2 % 5000 == 0:
             print('DataSource02 loading: %d / 47906' % count_2)
         #     with open('./translog02.log', 'w+') as log:
         #         log.write('DataSource02 loading: %d / 47906' % count_2)
