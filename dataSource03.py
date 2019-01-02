@@ -27,8 +27,8 @@ count_3 = 0
 # for digest in digest_2:
 while digest:
     count_3 += 1
-    if count_3 == 10000:
-        break
+    # if count_3 == 10000:
+    #     break
     try:
         digest = json.loads(digest)
         if '&#' in digest['bookName'] or bool(re.search('[a-z]', digest['bookName'])):

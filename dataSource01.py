@@ -49,8 +49,8 @@ def book_clear(source01):
     count_1 = 0
     while book:
         # continue
-        if count_1 == 10000:
-            break
+        # if count_1 == 10000:
+        #     break
         count_1 += 1
         try:
             book = json.loads(book)

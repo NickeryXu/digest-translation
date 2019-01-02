@@ -23,8 +23,8 @@ digest = source_2.readline()
 count_2 = 0
 while digest:
     count_2 += 1
-    if count_2 == 10000:
-        break
+    # if count_2 == 10000:
+    #     break
     try:
         digest = json.loads(digest)
         if '&#' in digest['book_name'] or bool(re.search('[a-z]', digest['book_name'])):
