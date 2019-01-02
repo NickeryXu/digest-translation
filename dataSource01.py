@@ -138,7 +138,7 @@ def book_clear(source01):
             # book['status'] = e
             # data_1.update({'_id': book['_id']}, {'$set': book})
             # print('book error', e, book)
-            print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + book)
+            print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' -- ' + str(e))
             # with open('./Errorlog01.log', 'w+') as log:
             #     info = 'Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + e + 'in: ' + book
             #     log.write(info)

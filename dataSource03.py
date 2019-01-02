@@ -92,12 +92,7 @@ while digest:
                 data['tags'] = tag
             if digest['attribute']['star'] != 0:
                 # 03源中star字段有为double类型，没有为int32的0
-                if '$numberInt' in digest['attribute']['star'].keys():
-                    data['score'] = digest['attribute']['star']['$numberInt']
-                elif '$numberDouble' in digest['attribute']['star'].keys():
-                    data['score'] = digest['attribute']['star']['$numberDouble']
-                else:
-                    data['score'] = digest['attribute']['star']
+                data['score'] = str(digest['attribute']['star'])
             # 03源中作者类型为字符串，多个作者空格分开
             if digest['authorList'] != []:
                 writer_list = []
@@ -171,7 +166,7 @@ while digest:
             # digest['status'] = 'success'
             # data_2.update({'_id': digest['_id']}, {'$set': digest})
     except Exception as e:
-        print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + 'with: ' + str(e))
+        print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' -- ' + str(e))
         # digest['status'] = e
         # data_2.update({'_id': digest['_id']}, {'$set': digest})
         # print('digest_2 error', e, digest)
