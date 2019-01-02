@@ -14,17 +14,17 @@ replicaset = 'mgset-11082973'
 book_list = {}
 author_id = {}
 
-DataSource01 = ['./DataSource01.json']
-# DataSource01 = ['/opt/miaozhai_data/DataSource01/DataSource01-1.json', '/opt/miaozhai_data/DataSource01/DataSource01-15.json',
-#                 '/opt/miaozhai_data/DataSource01/DataSource01-4.json', '/opt/miaozhai_data/DataSource01/DataSource01-10.json',
-#                 '/opt/miaozhai_data/DataSource01/DataSource01-16.json', '/opt/miaozhai_data/DataSource01/DataSource01-5.json',
-#                 '/opt/miaozhai_data/DataSource01/DataSource01-11.json', '/opt/miaozhai_data/DataSource01/DataSource01-17.json',
-#                 '/opt/miaozhai_data/DataSource01/DataSource01-6.json', '/opt/miaozhai_data/DataSource01/DataSource01-12.json',
-#                 '/opt/miaozhai_data/DataSource01/DataSource01-18.json', '/opt/miaozhai_data/DataSource01/DataSource01-7.json',
-#                 '/opt/miaozhai_data/DataSource01/DataSource01-13.json', '/opt/miaozhai_data/DataSource01/DataSource01-2.json',
-#                 '/opt/miaozhai_data/DataSource01/DataSource01-8.json', '/opt/miaozhai_data/DataSource01/DataSource01-14.json',
-#                 '/opt/miaozhai_data/DataSource01/DataSource01-3.json', '/opt/miaozhai_data/DataSource01/DataSource01-9.json'
-# ]
+# DataSource01 = ['./DataSource01.json']
+DataSource01 = ['/opt/miaozhai_data/DataSource01/DataSource01-1.json', '/opt/miaozhai_data/DataSource01/DataSource01-15.json',
+                '/opt/miaozhai_data/DataSource01/DataSource01-4.json', '/opt/miaozhai_data/DataSource01/DataSource01-10.json',
+                '/opt/miaozhai_data/DataSource01/DataSource01-16.json', '/opt/miaozhai_data/DataSource01/DataSource01-5.json',
+                '/opt/miaozhai_data/DataSource01/DataSource01-11.json', '/opt/miaozhai_data/DataSource01/DataSource01-17.json',
+                '/opt/miaozhai_data/DataSource01/DataSource01-6.json', '/opt/miaozhai_data/DataSource01/DataSource01-12.json',
+                '/opt/miaozhai_data/DataSource01/DataSource01-18.json', '/opt/miaozhai_data/DataSource01/DataSource01-7.json',
+                '/opt/miaozhai_data/DataSource01/DataSource01-13.json', '/opt/miaozhai_data/DataSource01/DataSource01-2.json',
+                '/opt/miaozhai_data/DataSource01/DataSource01-8.json', '/opt/miaozhai_data/DataSource01/DataSource01-14.json',
+                '/opt/miaozhai_data/DataSource01/DataSource01-3.json', '/opt/miaozhai_data/DataSource01/DataSource01-9.json'
+]
 
 def book_clear(source01):
     # print('book_clear begin!')
