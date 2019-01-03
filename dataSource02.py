@@ -99,7 +99,7 @@ while digest:
                 # 除以一万保留两位小数
                 data['publish_info']['words'] = str(round(digest['publish_info']['words'] / 10000, 2)) + '万字'
             # 02源的price类型为double，为0时表示为空，01源中为字符串，暂无为空
-            if data['publish_info']['price'] == '' and digest['publish_info.price'] != -1 and digest['publish_info.price'] != 0:
+            if data['publish_info']['price'] == '' and digest['publish_info']['price'] != -1 and digest['publish_info']['price'] != 0:
                 data['publish_info']['price'] = str(digest['publish_info']['price']) + '元'
             if data['category'] == []:
                 categorys = digest['publish_info']['category'].split('-')
