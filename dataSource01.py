@@ -103,7 +103,7 @@ def book_clear(source01):
                 publish_info = {
                     'publisher': publisher,
                     'publish_date': publish_date,
-                    'isbn': isbn,
+                    'ISBN': isbn,
                     'binding': binding,
                     'words': words,
                     'price': price,
