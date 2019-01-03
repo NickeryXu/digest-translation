@@ -34,7 +34,7 @@ while digest:
             # 02源中ISBN只有为空没有为暂无的
             if digest['publish_info']['ISBN'] != '':
                 # 若存在isbn，则直接以isbn判断
-                data = data_t.find_one({'publish_info.isbn': digest['publish_info']['ISBN']})
+                data = data_t.find_one({'publish_info.ISBN': digest['publish_info']['ISBN']})
             else:
                 # 若不存在isbn，则暂时以书名判断，作者判断后续跟进
                 data = data_t.find_one({'book_name': digest['book_name']})
@@ -120,7 +120,7 @@ while digest:
             data['shelf_status'] = '1'
             if key_data != 1:
                 data_t.update({'_id': data['_id']}, {'$set': data})
-            else:
+            elif key_data == 1:
                 data_t.insert(data)
             bookid = str(data['_id'])
             book_name = data['book_name']

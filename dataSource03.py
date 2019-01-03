@@ -37,7 +37,7 @@ while digest:
             key_data = 0
             # 03源isbn只存在为空字符串，没有暂无
             if digest['isbn'] != '':
-                data = data_t.find_one({'publish_info': {'isbn': digest['isbn']}})
+                data = data_t.find_one({'publish_info.ISBN': digest['isbn']})
             else:
                 # 03源中bookName一定存在
                 data = data_t.find_one({'book_name': digest['bookName']})
