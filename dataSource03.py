@@ -31,7 +31,7 @@ while digest:
     #     break
     try:
         digest = json.loads(digest)
-        if '&#' in digest['bookName'] or bool(re.search('[a-z]', digest['bookName'])):
+        if '&#' in digest['bookName'] or bool(re.search('[a-zA-Z]', digest['bookName'])):
             continue
         if not digest.get('status'):
             key_data = 0
