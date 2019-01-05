@@ -1,4 +1,5 @@
 from elasticsearch import Elasticsearch
+from datetime import datetime
 import pymongo
 
 url = 'mongodb://dds-bp159c71a9b119841194-pub.mongodb.rds.aliyuncs.com:3717,dds-bp159c71a9b119842982-pub.mongodb.rds.aliyuncs.com:3717'
@@ -14,23 +15,26 @@ data_e = db.t_excerpts
 es = Elasticsearch(['es-cn-0pp0wdtno00026tz5.public.elasticsearch.aliyuncs.com'], http_auth=('elastic', 'N+8atre&lt'), port=9200)
 # es = Elasticsearch(['localhost:9200'])
 
-books = data_t.find({'shelf_status': '1'})
-# n = 0
-book_doc = []
-count = 0
-for book in books:
-    count += 1
-    bid = str(book['_id'])
-    del book['_id']
-    doc = {'index': {'_index': 't_books', '_type': 'digest', '_id': bid}}
-    book_doc.append(doc)
-    book_doc.append(book)
-    # 每500条插入一次
-    if count % 500 == 0:
-        es.bulk(index='t_books', doc_type='digest', body=book_doc, request_timeout=60)
-        book_doc = []
-# 剩余的再插入一次
-es.bulk(index='t_books', doc_type='digest', body=book_doc, request_timeout=60)
+try:
+    books = data_t.find({'shelf_status': '1'})
+    # n = 0
+    book_doc = []
+    count = 0
+    for book in books:
+        count += 1
+        bid = str(book['_id'])
+        del book['_id']
+        doc = {'index': {'_index': 't_books', '_type': 'digest', '_id': bid}}
+        book_doc.append(doc)
+        book_doc.append(book)
+        # 每500条插入一次
+        if count % 500 == 0:
+            es.bulk(index='t_books', doc_type='digest', body=book_doc, request_timeout=60)
+            book_doc = []
+    # 剩余的再插入一次
+    es.bulk(index='t_books', doc_type='digest', body=book_doc, request_timeout=60)
+except Exception as e:
+    print('Error when: ' + datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' -- ' + str(e))
 
 # excerpts = data_e.find({'shelf_status': '1'})
 # # m = 0
